@@ -46,7 +46,7 @@ export default function Hero() {
 
               <button className="border-2 border-green-800 hover:bg-green-800 hover:text-white transition-all duration-300 text-green-800 px-8 py-4 rounded-2xl font-semibold flex items-center gap-3">
                 <Phone size={18} />
-                Nous contacter
+                  Nous contacter
               </button>
             </div>
 
@@ -132,6 +132,14 @@ export default function Hero() {
               priority
               className="object-cover"
             />
+            {/* <Image
+              src="/poule.png"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              alt="poule"
+              priority
+              className="object-cover"
+            /> */}
           </div>
 
           {/* BADGE */}

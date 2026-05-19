@@ -35,7 +35,7 @@ export default function Navbar() {
               />
             </div>
           </div>
-
+          
           {/* DESKTOP MENU */}
           <nav className="hidden lg:flex items-center gap-10">
             {navLinks.map((link, index) => (
