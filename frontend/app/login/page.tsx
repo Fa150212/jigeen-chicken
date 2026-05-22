@@ -1,55 +1,93 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+
 import { useRouter } from "next/navigation";
 
+import Image from "next/image";
+
+import {
+  Eye,
+  EyeOff,
+  Loader2,
+  Mail,
+  Lock,
+} from "lucide-react";
+
 export default function LoginPage() {
+
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: "",
+    });
+
+  /* HANDLE CHANGE */
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+  };
+
+  /* SUBMIT */
 
   const handleSubmit = async (
     e: React.FormEvent
   ) => {
+
     e.preventDefault();
 
     try {
+
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "http://localhost:5000/api/client/login",
         {
           method: "POST",
 
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
 
-          body: JSON.stringify(formData),
+          body: JSON.stringify(
+            formData
+          ),
         }
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
       if (!response.ok) {
-        alert(data.message || "Login failed");
+
+        alert(
+          data.message ||
+            "Connexion échouée"
+        );
+
         return;
       }
 
-      /* SAVE ADMIN */
+      /* SAVE USER */
 
-      // localStorage.setItem(
-      //   "admin",
-      //   JSON.stringify(data)
-      // );
       localStorage.setItem(
-        "admin",
+        "client",
         JSON.stringify(data.user)
       );
 
@@ -60,23 +98,27 @@ export default function LoginPage() {
 
       /* REDIRECT */
 
-      router.push("/dashboardAdmin");
+      router.push("/");
 
     } catch (error) {
+
       console.log(error);
 
-      alert("Server Error");
+      alert("Erreur serveur");
+
     } finally {
+
       setLoading(false);
+
     }
   };
 
   return (
     <section className="min-h-screen grid lg:grid-cols-2 bg-[#F8F5F0]">
 
-      {/* LEFT SIDE */}
+      {/* LEFT */}
 
-      <div className="hidden lg:flex flex-col justify-center items-center bg-[#1F5E3B] text-white p-12 relative overflow-hidden">
+      <div className="hidden lg:flex flex-col justify-center items-center bg-[#2E5E3E] text-white p-12 relative overflow-hidden">
 
         <Image
           src="/poule.png"
@@ -86,35 +128,44 @@ export default function LoginPage() {
           className="object-contain"
         />
 
-        <h1 className="text-5xl font-bold mt-6">
+        <h1 className="text-5xl font-black mt-6">
           Jigeen Chicken
         </h1>
 
-        <p className="mt-4 text-lg text-center max-w-md text-gray-200">
-          Welcome back to your poultry
-          management dashboard.
+        <p className="mt-4 text-lg text-center max-w-md text-[#F5EAD7]">
+
+          Connectez-vous pour commander
+          vos produits frais rapidement.
+
         </p>
       </div>
 
-      {/* RIGHT SIDE */}
+      {/* RIGHT */}
 
       <div className="flex items-center justify-center p-6">
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white w-full max-w-md rounded-3xl shadow-xl p-8"
+          className="
+            bg-white
+            w-full
+            max-w-md
+            rounded-[35px]
+            shadow-xl
+            p-8
+          "
         >
 
           {/* TITLE */}
 
           <div className="text-center mb-8">
 
-            <h2 className="text-4xl font-bold text-[#1F5E3B]">
-              Admin Login
+            <h2 className="text-4xl font-black text-[#2E5E3E]">
+              Connexion
             </h2>
 
-            <p className="text-gray-500 mt-2">
-              Login to your dashboard
+            <p className="text-gray-500 mt-3">
+              Accédez à votre compte
             </p>
 
           </div>
@@ -123,76 +174,161 @@ export default function LoginPage() {
 
           <div className="mb-5">
 
-            <label className="block mb-2 font-medium">
+            <label className="block mb-2 font-semibold">
               Email
             </label>
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full border border-gray-300 p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1F5E3B]"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  email: e.target.value,
-                })
-              }
-            />
+            <div className="relative">
 
+              <Mail
+                size={20}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Votre email"
+                required
+                onChange={handleChange}
+                className="
+                  w-full
+                  border
+                  border-gray-300
+                  rounded-2xl
+                  pl-12
+                  pr-4
+                  py-4
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#2E5E3E]
+                "
+              />
+
+            </div>
           </div>
 
           {/* PASSWORD */}
 
-          <div className="mb-6">
+          <div className="mb-8">
 
-            <label className="block mb-2 font-medium">
-              Password
+            <label className="block mb-2 font-semibold">
+              Mot de passe
             </label>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1F5E3B]"
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  password: e.target.value,
-                })
-              }
-            />
+            <div className="relative">
 
+              <Lock
+                size={20}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+
+              <input
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
+                name="password"
+                placeholder="Mot de passe"
+                required
+                onChange={handleChange}
+                className="
+                  w-full
+                  border
+                  border-gray-300
+                  rounded-2xl
+                  pl-12
+                  pr-12
+                  py-4
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#2E5E3E]
+                "
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowPassword(
+                    !showPassword
+                  )
+                }
+                className="
+                  absolute
+                  right-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-gray-500
+                "
+              >
+
+                {showPassword ? (
+                  <EyeOff size={20} />
+                ) : (
+                  <Eye size={20} />
+                )}
+
+              </button>
+
+            </div>
           </div>
 
           {/* BUTTON */}
 
           <button
             disabled={loading}
-            className="w-full bg-[#F4A62A] hover:bg-[#df961c] transition-all duration-300 text-white font-semibold p-4 rounded-xl"
+            className="
+              w-full
+              bg-[#F4A62A]
+              hover:bg-[#df961c]
+              text-white
+              font-bold
+              py-4
+              rounded-2xl
+              transition-all
+              flex
+              items-center
+              justify-center
+              gap-3
+            "
           >
-            {loading ? "Loading..." : "Login"}
+
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+
+                Connexion...
+              </>
+            ) : (
+              "Se connecter"
+            )}
+
           </button>
 
           {/* REGISTER */}
 
-          <p className="text-center text-gray-500 mt-6">
+          <p className="text-center text-gray-500 mt-8">
 
-            Don&apos;t have an account ?{" "}
+            Vous n'avez pas de compte ?{" "}
 
             <span
               onClick={() =>
                 router.push("/register")
               }
-              className="text-[#1F5E3B] font-semibold cursor-pointer"
+              className="
+                text-[#2E5E3E]
+                font-bold
+                cursor-pointer
+              "
             >
-              Register
+              Inscription
             </span>
 
           </p>
 
         </form>
-
       </div>
-
     </section>
   );
 }

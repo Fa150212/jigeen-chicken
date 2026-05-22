@@ -20,31 +20,31 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/dashboardAdmin",
+    href: "/admin/dashboardAdmin",
   },
 
   {
     title: "Produits",
     icon: Package,
-    href: "/dashboardAdmin/products",
+    href: "/admin/dashboardAdmin/products",
   },
 
   {
     title: "Commandes",
     icon: ShoppingCart,
-    href: "/dashboardAdmin/orders",
+    href: "/admin/dashboardAdmin/orders",
   },
 
   {
     title: "Clients",
     icon: Users,
-    href: "/dashboardAdmin/customers",
+    href: "/admin/dashboardAdmin/customers",
   },
 
   {
     title: "Paramètres",
     icon: Settings,
-    href: "/dashboardAdmin/settings",
+    href: "/admin/dashboardAdmin/settings",
   },
 ];
 
@@ -73,7 +73,7 @@ export default function Sidebar() {
 
     localStorage.removeItem("token");
 
-    router.push("/login");
+    router.push("/admin/login");
 
   };
 

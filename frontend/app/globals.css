@@ -29,3 +29,6 @@ body {
   background: #f8f6f2;
   color: #1f2937;
 }
+html {
+  scroll-behavior: smooth;
+}

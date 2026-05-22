@@ -10,6 +10,9 @@ const connectDB = require("./config/db");
 /* ROUTES */
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
+const clientRoutes = require("./routes/clientRoutes");
+// const dashboardRoutes = require("./routes/dashboardRoutes");
+// const saveVisitor = require("./middleware/visitorMiddleware");
 
 connectDB();
 
@@ -59,6 +62,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products",productRoutes);
+app.use("/api/client", clientRoutes);
+// app.use( "/api/dashboard", dashboardRoutes);
+// app.use(saveVisitor);
 
 /* =========================
    TEST ROUTE

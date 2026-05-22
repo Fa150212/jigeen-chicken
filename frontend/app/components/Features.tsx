@@ -11,56 +11,83 @@ import {
 const data = [
   {
     title: "Poulets de chair",
-    desc: "Poulets frais, élevés dans les meilleures conditions.",
+    desc: "Poulets frais élevés dans les meilleures conditions pour garantir qualité et fraîcheur.",
     icon: Bird,
-    color: "bg-green-700",
+    bg: "bg-[#E7F3EA]",
+    color: "text-[#2E5E3E]",
   },
   {
     title: "Œufs frais",
-    desc: "Des œufs frais et naturels chaque jour.",
+    desc: "Des œufs naturels soigneusement sélectionnés chaque jour.",
     icon: Egg,
-    color: "bg-orange-500",
+    bg: "bg-[#FFF1DA]",
+    color: "text-[#D98C1F]",
   },
   {
-    title: "Aliments",
-    desc: "Aliments de qualité pour une croissance saine.",
+    title: "Aliments de qualité",
+    desc: "Une alimentation saine pour assurer une croissance optimale.",
     icon: PackageCheck,
-    color: "bg-green-700",
+    bg: "bg-[#F4E8DB]",
+    color: "text-[#8B5A2B]",
   },
   {
-    title: "Livraison",
-    desc: "Livraison rapide et sécurisée à domicile.",
+    title: "Livraison rapide",
+    desc: "Livraison fiable et sécurisée directement chez vous.",
     icon: Truck,
-    color: "bg-orange-500",
+    bg: "bg-[#E7F3EA]",
+    color: "text-[#2E5E3E]",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="relative z-20 -mt-16 px-6">
+    <section
+      id="features"
+      className="py-24 bg-[#F8F6F1]"
+    >
+      <div className="max-w-7xl mx-auto px-6">
 
-      <div className="max-w-7xl mx-auto bg-white rounded-[32px] shadow-[0_15px_50px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden">
+        {/* HEADER */}
+        <div className="text-center mb-20">
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4">
+          <span className="bg-[#E7F3EA] text-[#2E5E3E] px-5 py-2 rounded-full text-sm font-semibold">
+            Pourquoi nous choisir
+          </span>
 
-          {data.map((item, i) => {
+          <h2 className="mt-6 text-5xl md:text-6xl font-black text-[#2E5E3E] leading-tight">
+            Une qualité fermière
+            <br />
+            authentique
+          </h2>
+
+          <p className="mt-6 text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            Nous proposons des produits frais et naturels
+            avec une attention particulière portée à la qualité,
+            l’hygiène et la satisfaction de nos clients.
+          </p>
+        </div>
+
+        {/* FEATURES */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          {data.map((item, index) => {
+
             const Icon = item.icon;
 
             return (
               <div
-                key={i}
+                key={index}
                 className="
                   group
-                  relative
+                  bg-white
+                  rounded-[32px]
                   p-8
-                  border-b
-                  lg:border-b-0
-                  lg:border-r
-                  last:border-r-0
-                  border-gray-100
-                  hover:bg-[#faf9f6]
+                  border
+                  border-[#EFE8DD]
+                  hover:shadow-2xl
+                  hover:-translate-y-2
                   transition-all
-                  duration-300
+                  duration-500
                 "
               >
 
@@ -69,69 +96,40 @@ export default function Features() {
                   className={`
                     w-16
                     h-16
-                    rounded-full
-                    ${item.color}
+                    rounded-2xl
+                    ${item.bg}
                     flex
                     items-center
                     justify-center
-                    shadow-lg
+                    mb-6
                     group-hover:scale-110
-                    transition-transform
+                    transition-all
                     duration-300
                   `}
                 >
+
                   <Icon
-                    className="text-white"
-                    size={28}
+                    size={30}
+                    className={item.color}
                     strokeWidth={2.2}
                   />
+
                 </div>
 
                 {/* TITLE */}
-                <h3 className="mt-6 text-2xl font-bold text-gray-900 leading-snug">
+                <h3 className="text-2xl font-black text-[#2E5E3E] leading-snug">
                   {item.title}
                 </h3>
 
                 {/* DESCRIPTION */}
-                <p className="mt-3 text-gray-600 leading-relaxed">
+                <p className="mt-4 text-gray-500 leading-relaxed">
                   {item.desc}
                 </p>
 
                 {/* BUTTON */}
-                <button
-                  className="
-                    mt-6
-                    flex
-                    items-center
-                    gap-2
-                    text-orange-500
-                    font-semibold
-                    group-hover:gap-3
-                    transition-all
-                  "
-                >
-                  Voir plus
 
-                  <ArrowRight
-                    size={18}
-                    strokeWidth={2.5}
-                  />
-                </button>
-
-                {/* HOVER EFFECT */}
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    left-0
-                    w-0
-                    h-1
-                    bg-orange-500
-                    group-hover:w-full
-                    transition-all
-                    duration-500
-                  "
-                />
+                {/* LINE EFFECT */}
+                
               </div>
             );
           })}

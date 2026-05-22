@@ -1,18 +1,21 @@
 
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Products from "./components/Products";
+import Footer from "./components/Footer"
 import About from "./components/About";
 import Features from "./components/Features";
-import Products from "./components/Products";
+
 
 export default function Home() {
   return (
-    <main>
+    <main id="home">
       <Navbar />
       <Hero />
-      {/* <Features />
+      <Features />
       <Products />
-      <About /> */}
+      <About /> 
+      <Footer />
     </main>
   );
 }

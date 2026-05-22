@@ -1,33 +1,105 @@
+"use client";
+
 import Image from "next/image";
 
 export default function About() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-2 gap-10 items-center">
-      
-      <div>
-        <h2 className="text-5xl font-bold text-green-900">
-          À propos de nous
-        </h2>
+    <section
+      id="about"
+      className="py-24 bg-[#f8f8f5]"
+    >
 
-        <p className="mt-6 text-gray-600 text-lg leading-relaxed">
-          Jigeen Chicken est une ferme avicole engagée à offrir
-          des produits de qualité supérieure.
-        </p>
+      <div className="max-w-7xl mx-auto px-6">
 
-        <button className="mt-8 bg-green-800 text-white px-8 py-4 rounded-2xl">
-          En savoir plus
-        </button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          {/* IMAGE */}
+          <div className="relative">
+
+            <div className="absolute -top-5 -left-5 w-full h-full bg-[#F4A62A]/20 rounded-[40px]" />
+
+            <div className="relative h-[500px] rounded-[40px] overflow-hidden shadow-2xl">
+
+              <Image
+                src="/case.png"
+                alt="Poulailler Fermier"
+                fill
+                className="object-cover"
+              />
+
+            </div>
+
+          </div>
+
+          {/* CONTENT */}
+          <div>
+
+            <span className="bg-green-100 text-green-800 px-5 py-2 rounded-full text-sm font-semibold">
+              À PROPOS DE NOUS
+            </span>
+
+            <h2 className="text-5xl font-black text-[#2E5E3E] leading-tight mt-6">
+              Des poulets frais élevés avec soin
+            </h2>
+
+            <p className="text-gray-600 text-lg leading-9 mt-8">
+              Chez Poulailler Fermier, nous proposons des
+              poulets de qualité élevés dans un environnement
+              sain avec une alimentation naturelle.
+            </p>
+
+            <p className="text-gray-600 text-lg leading-9 mt-6">
+              Notre objectif est d’offrir des produits frais,
+              savoureux et accessibles à toutes les familles.
+            </p>
+
+            {/* STATS */}
+            <div className="grid grid-cols-3 gap-5 mt-10">
+
+              <div className="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+                <h3 className="text-4xl font-black text-[#F4A62A]">
+                  500+
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Clients
+                </p>
+
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+                <h3 className="text-4xl font-black text-[#F4A62A]">
+                  100%
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Naturel
+                </p>
+
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 shadow-lg text-center">
+
+                <h3 className="text-4xl font-black text-[#F4A62A]">
+                  24h
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Livraison
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
-      <div>
-        <Image
-          src="/farm.jpg"
-          alt="Farm"
-          width={700}
-          height={500}
-          className="rounded-3xl"
-        />
-      </div>
     </section>
   );
 }

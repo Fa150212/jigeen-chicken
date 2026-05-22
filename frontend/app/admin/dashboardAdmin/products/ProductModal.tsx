@@ -1,5 +1,6 @@
-
 "use client";
+
+import Image from "next/image";
 
 import {
   Loader2,
@@ -7,9 +8,8 @@ import {
   X,
 } from "lucide-react";
 
-import Image from "next/image";
-
 import {
+  useEffect,
   useState,
 } from "react";
 
@@ -17,12 +17,14 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   fetchProducts: () => void;
+  editingProduct?: any;
 }
 
 export default function ProductModal({
   isOpen,
   onClose,
   fetchProducts,
+  editingProduct,
 }: Props) {
 
   const [loading, setLoading] =
@@ -31,16 +33,61 @@ export default function ProductModal({
   const [preview, setPreview] =
     useState("");
 
+  const [image, setImage] =
+    useState<File | null>(null);
+
   const [formData, setFormData] =
     useState({
       name: "",
       price: "",
+      weight: "",
       category: "",
       description: "",
     });
 
-  const [image, setImage] =
-    useState<File | null>(null);
+  /* PREFILL */
+
+  useEffect(() => {
+
+    if (editingProduct) {
+
+      setFormData({
+        name:
+          editingProduct.name || "",
+
+        price:
+          editingProduct.price || "",
+
+        weight:
+          editingProduct.weight || "",
+
+        category:
+          editingProduct.category || "",
+
+        description:
+          editingProduct.description || "",
+      });
+
+      setPreview(
+        editingProduct.image || ""
+      );
+
+    } else {
+
+      setFormData({
+        name: "",
+        price: "",
+        weight: "",
+        category: "",
+        description: "",
+      });
+
+      setPreview("");
+
+      setImage(null);
+    }
+
+  }, [editingProduct]);
 
   /* IMAGE */
 
@@ -64,6 +111,7 @@ export default function ProductModal({
 
   const handleSubmit =
     async () => {
+
       try {
 
         setLoading(true);
@@ -82,6 +130,11 @@ export default function ProductModal({
         );
 
         data.append(
+          "weight",
+          formData.weight
+        );
+
+        data.append(
           "category",
           formData.category
         );
@@ -92,19 +145,33 @@ export default function ProductModal({
         );
 
         if (image) {
+
           data.append(
             "image",
             image
           );
         }
 
-        await fetch(
-          "http://localhost:5000/api/products",
-          {
-            method: "POST",
+        const url =
+          editingProduct
+            ? `http://localhost:5000/api/products/${editingProduct._id}`
+            : "http://localhost:5000/api/products";
+
+        const method =
+          editingProduct
+            ? "PUT"
+            : "POST";
+
+        const res =
+          await fetch(url, {
+            method,
             body: data,
-          }
-        );
+          });
+
+        const result =
+          await res.json();
+
+        console.log(result);
 
         fetchProducts();
 
@@ -117,7 +184,6 @@ export default function ProductModal({
       } finally {
 
         setLoading(false);
-
       }
     };
 
@@ -136,8 +202,13 @@ export default function ProductModal({
           <X />
         </button>
 
+        {/* TITLE */}
         <h2 className="text-4xl font-black text-green-900 mb-10">
-          Ajouter Produit
+
+          {editingProduct
+            ? "Modifier Produit"
+            : "Ajouter Produit"}
+
         </h2>
 
         <div className="space-y-6">
@@ -159,6 +230,7 @@ export default function ProductModal({
               ) : (
 
                 <>
+
                   <Upload
                     size={45}
                     className="text-gray-400"
@@ -167,6 +239,7 @@ export default function ProductModal({
                   <p className="mt-4 text-gray-500">
                     Ajouter une image
                   </p>
+
                 </>
               )}
 
@@ -181,10 +254,11 @@ export default function ProductModal({
             </label>
           </div>
 
-          {/* INPUTS */}
+          {/* NAME */}
           <input
             type="text"
             placeholder="Nom produit"
+            value={formData.name}
             className="w-full border rounded-2xl px-5 py-4"
             onChange={(e) =>
               setFormData({
@@ -195,9 +269,11 @@ export default function ProductModal({
             }
           />
 
+          {/* PRICE */}
           <input
             type="number"
             placeholder="Prix"
+            value={formData.price}
             className="w-full border rounded-2xl px-5 py-4"
             onChange={(e) =>
               setFormData({
@@ -208,9 +284,26 @@ export default function ProductModal({
             }
           />
 
+          {/* WEIGHT */}
+          <input
+            type="number"
+            placeholder="Poids en KG"
+            value={formData.weight}
+            className="w-full border rounded-2xl px-5 py-4"
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                weight:
+                  e.target.value,
+              })
+            }
+          />
+
+          {/* CATEGORY */}
           <input
             type="text"
             placeholder="Catégorie"
+            value={formData.category}
             className="w-full border rounded-2xl px-5 py-4"
             onChange={(e) =>
               setFormData({
@@ -221,8 +314,12 @@ export default function ProductModal({
             }
           />
 
+          {/* DESCRIPTION */}
           <textarea
             placeholder="Description"
+            value={
+              formData.description
+            }
             className="w-full border rounded-2xl px-5 py-4 h-32"
             onChange={(e) =>
               setFormData({
@@ -241,12 +338,18 @@ export default function ProductModal({
           >
 
             {loading ? (
+
               <>
                 <Loader2 className="animate-spin" />
-                Création...
+                Chargement...
               </>
+
             ) : (
-              "Créer produit"
+
+              editingProduct
+                ? "Mettre à jour"
+                : "Créer produit"
+
             )}
           </button>
         </div>
